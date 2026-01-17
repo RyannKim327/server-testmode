@@ -1,13 +1,16 @@
-name: Test Backend
 
-on: [push]
+name: Test Backend with ngrok
+
+on:
+  push:
+    branches: [main]  # or any branch you want
 
 jobs:
   run-server:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Node.js
@@ -15,20 +18,33 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
       - name: Install ngrok
         run: npm install ngrok
 
-      - name: ngrok config setup
-        run: npx ngrok config add-authtoken ${{ secret.NGROK_TOKEN }}
+      - name: Configure ngrok
+        run: npx ngrok config add-authtoken ${{ secrets.NGROK_TOKEN }}
 
-      - name: Start Server
+      - name: Start server and ngrok
         run: |
+          # Start Node.js server in the background
           npm start &
-          npx ngrok http 3000
+
+          # Start ngrok in the background, log output to ngrok.log
+          npx ngrok http 3000 --log=stdout > ngrok.log &
+
+          # Give ngrok a few seconds to start
           sleep 5
-          cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io'
+
+          # Print the public URL in the logs
+          NGROK_URL=$(cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io' | head -1)
+          echo "Your temporary backend URL: $NGROK_URL"
+
+          # Keep the workflow alive so you can test the backend for a short time
+          echo "Server and ngrok are running for 3 minutes..."
+          sleep 180
+     
       # - name: Run Tests
       #   run: npm test
