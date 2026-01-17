@@ -33,13 +33,13 @@ jobs:
           npm start &
 
           # Start ngrok in the background, log output to ngrok.log
-          npx ngrok http 80 --log=stdout > ngrok.log &
+          npx ngrok http 3000 --log=stdout > ngrok.log &
 
           # Give ngrok a few seconds to start
           sleep 5
 
           RANDOM=${{ secrets.RANDOM }}
-          echo "test $RANDOM"
+          echo "test for secret input $RANDOM"
 
           # Print the public URL in the logs
           NGROK_URL=$(cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io' | head -1)
