@@ -7,7 +7,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/ping", (req, res) => {
-  res.json({ status: "ok" });
+  res.json({ status: "ok na ata" });
 });
 
 app.listen(port, "0.0.0.0", () => {
