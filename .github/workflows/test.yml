@@ -38,9 +38,6 @@ jobs:
           # Give ngrok a few seconds to start
           sleep 5
 
-          RANDOM=${{ secrets.RANDOM }}
-          echo "test for secret input $RANDOM"
-
           # Print the public URL in the logs
           NGROK_URL=$(cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io' | head -1)
           echo "Your temporary backend URL: $NGROK_URL"
