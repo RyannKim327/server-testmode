@@ -21,14 +21,14 @@ jobs:
       - name: Install ngrok
         run: npm install ngrok
 
-      - name: ngrok setup
+      - name: ngrok config setup
         run: npx ngrok config add-authtoken ${{ secret.NGROK_TOKEN }}
 
       - name: Start Server
-        run: npm start &
-
-      - name: Start ngrok
-        run: npx ngrok http 3000
-        
+        run: |
+          npm start &
+          npx ngrok http 3000
+          sleep 5
+          cat ngrok.log | grep -o 'https://[0-9a-z]*\.ngrok.io'
       # - name: Run Tests
       #   run: npm test
