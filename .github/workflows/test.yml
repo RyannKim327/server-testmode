@@ -18,8 +18,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Install ngrok
+        run: npm install ngrok
+
       - name: Start Server
         run: npm start &
+
+      - name: Start ngrok
+        run: ngrok http 3000
         
       # - name: Run Tests
       #   run: npm test
