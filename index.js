@@ -3,13 +3,13 @@ const app = express();
 const port = 3000;
 
 app.get("/", (req, res) => {
-	res.send("Hello from GitHub Actions server!");
+  res.send("Hello from GitHub Actions server!");
 });
 
 app.get("/ping", (req, res) => {
-	res.json({ status: "ok" });
+  res.json({ status: "ok" });
 });
 
-app.listen(port,, '0.0.0.0'() => {
-	console.log(`Server running at http://localhost:${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
